@@ -24,3 +24,15 @@ EXCEPTION
         RAISE_APPLICATION_ERROR(-20007, 'Erro ao inserir cliente: ' || SQLERRM);
 END check_idade_cliente;
 /
+
+
+CREATE or REPLACE TRIGGER check_data
+BEFORE INSERT OR UPDATE ON VEICULO 
+FOR EACH ROW
+
+BEGIN 
+    IF :NEW.DATA_FABRICO > SYSDATE 
+    THEN
+        RAISE_APPLICATION_ERROR (-20006, 'A Data inserida nao pode ser maior que a actual');
+    END IF;
+END check_data;
